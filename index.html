@@ -36,7 +36,7 @@
 				  	    <legend>Phone Numbers</legend>
 				  		Phone Number 
 				  		<button onclick="addPhoneNum('#phonelist')">Add Phone Number</button> <br>
-					  	<input type="tel" name="phonelist[]" required><br>
+					  	<input type="tel" name="phone_1" required><br>
 						
 
 						
@@ -46,11 +46,11 @@
 				  	   <legend>Addresses</legend>
 
 					  	Street<br>
-					  	<input type="text" name="streetlist[]"><br>
+					  	<input type="text" name="street_1"><br>
 					  	City<br>
-					  	<input type="text" name="citylist[]"><br>
+					  	<input type="text" name="city_1"><br>
 					  	State<br>
-					  	<input type="text" name="statelist[]"><br>
+					  	<input type="text" name="state_1"><br>
 					  	
 					 </fieldset>
 					 <button onclick="addAddress('#addresslist')">Add Address</button> <br> 
@@ -60,7 +60,14 @@
 
 			</div>	
 		 
-		  <div class="col-sm-4">.col-md-4</div>
+		  <div class="col-sm-4 contactDetail"></div>
+
+		 <div class="row">
+		  	<div class="col-sm-8">
+				<h2>Contacts:</h2>
+				<ul class="brieflist">
+				</ul>
+			</div>
 		</div>
 
 
