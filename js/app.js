@@ -1,101 +1,83 @@
 var contacts = [];
 
+var Phone = {
+		"number" : "",
+		"type" : "mobile"
+};
 
 var Address = {
-	street: "",
-	city: "",
-	state: ""
+	"street" : "",
+	"city" : "",
+	"state ": ""
 };
 
-var Phone =	{
-	number:"",
-	type: 'mobile'
-};
 
 var Contact = {
-	fname: "",
-	lname: "",
-	phonelist: [],
-	addresslist: [],
+	"fname" : "",
+	"lname": "",
+	"phonelist": [],
+	"addresslist": [],
 
-/*
-    logThis: function () {
-    	console.log(this);
-    	console.log("name= " + this.fname + " " + this.lname);
-    	for (var p=0; p<this.phonelist.length; p++) {
-			console.log ("num-" + p + " = " + this.phonelist[p].number);
-		};	
-	},
-*/
-
-
-	addContact: function (params) {
-
-		for (var key in params) {
-			if (key.startsWith("phonelist")){
-				for (i=0; i<params['phonelist'].length; i++) {
-					//var pNum = '555-555-5555';
-					//var p = Object.create(Phone);
-					//p.number = params[key][i];
-					//var plist = this['phonelist'];
-					//plist.push(p);
-
-	   				this['phonelist'].push(Object.create(Phone));
-					this['phonelist'][i].number = params[key][i];
-				};
-			} 
-			else if (key.startsWith("addresslist")){
-				for (i=0; i<params['addresslist'].length; i++) {
-	   				var a = this.addresslist.push(Object.create(Address));
-	   				a.street = params[key][i]['street'];
-					a.city = params[key][i]['city'];
-					a.state = params[key][i]['state'];
-				};
-	   		}
-	   		else
-			    this[key] = params[key];
-		};
-
-		console.log (this);
+	"addContact" : function (fname, lname, phoneList, addrList) {
+		// cont = Object.create(Contact);
+		this.fname = fname;
+		this.lname = lname;
+		for (var p=0; p<phoneList.length; p++) {
+			this.phonelist.push(phoneList[p]);
+		}
+		for (var a=0; a<addrList.length; a++) {
+			this.addresslist.push(addrList[a]);
+		}
 	}
 };
 
 
+var phoneCount = 1;  /* display starts with one phone */
+var addressCount = 1; /* display starts with one address */
 
-function addPhoneNum(phoneSetID) {
+/* create additional phone and address input fields on the page*/
+function addPhoneField(phoneSetID) {
 	event.preventDefault();
 	console.log("addPhoneNum called");
-    $(phoneSetID).append("<input type='tel' name='phonelist'><br>");
+	phoneCount ++;
+    $(phoneSetID).append(
 
-       
+		"<select name=ptype_" + phoneCount + ">" + 
+			"<select>" + 
+	  			"<option value='mobile'>Mobile</option>" + 
+	  			"<option value='work'>Work</option>" + 
+			    "<option value='home'>Home</option>" + 
+			    "<option value='other'>Other</option>" + 
+			"</select>	: " +  
+		  	"<input type='tel' name='phone_" + phoneCount + "'><br>");
 };
 
-function addAddress(addressSetID) {
+function addAddressField(addressSetID) {
 	event.preventDefault();
 	console.log("addAddress called");
+	addressCount++;
 	// add street, city, and state fields
 	var addressFields = "<hr class='address'>" +
 					"Street<br>" + 
-					"<input type='text' name='streetlist'><br>" + 
+					"<input type='text' name='street_" + addressCount + "'><br>" + 
 					"City<br>" + 
-					"<input type='text' name='citylist'><br>" +
+					"<input type='text' name='city_" + addressCount + "'><br>" +
 					"State<br>" + 
-					"<input type='text' name='statelist'><br>";
+					"<input type='text' name='state_" + addressCount + "'><br>";
 	$(addressSetID).append(addressFields);
 
 };
 
+/* show "brief" view of contact */
 function showContactBrief(contact) {
 	// display clickable names only
 	
 		var html = "";
-		html += "<li id='contact" + i + "'>" + contact.fname + " " + contact.lname + "</li>";
+		html += "<li id='contact" + "'>" + contact.fname + " " + contact.lname + "</li>";
 		$('.brieflist').append(html);
-
 	};
 	
-
-
+/* show "full" view of contact */
 function showContactDetail(contact) {
 	console.log("showContactDetail called");
 	// display clickable names only
@@ -105,107 +87,76 @@ function showContactDetail(contact) {
 	$('.contactDetail').append(html);
 
 	var phones = "Phone Numbers: <ul class='phone-detail'>";
-	for (p=0; p< contact.phonelist.length; p++) {
-		phones += contact.phonelist[p].type + ": " + contact.phonelist[p].number + "</br>";
+	for (var p=0; p< contact.phonelist.length; p++) {
+		phones += "<li>" + contact.phonelist[p].type + 
+		": " + contact.phonelist[p].number + "</li>";
 	};
-	phones = "</ul>";
+	phones += "</ul>";
 	$('.contactDetail').append(phones);
 
 	var addrs = "Addresses: <ul class='addr-detail'>";
-	for (a=0; a< contact.addresslist.length; a++) {
-		addrs += contact.addresslist[a].street + ", " +
+	for (var a=0; a< contact.addresslist.length; a++) {
+		addrs += "<li>" + contact.addresslist[a].street + ", " +
 				 contact.addresslist[a].city + ", " +
-				 contact.addresslist[a].state +" </br>";
+				 contact.addresslist[a].state +" </li>";
 	};
-	addrs = "</ul>";
+	addrs += "</ul>";
 	$('.contactDetail').append(addrs);
-	
 };
 
 
 $(document).ready(function(){
 
-	console.log ('document ready');
-
 	$('.addContactForm').submit( function(event){
    		event.preventDefault();
-   		console.log ('adding contact');
+   		
+		var fname = "";
+   		var lname = "";
+   		var addressList = [];
+   		var phoneList = [];
+
+  		if (contactForm.fname.value) {
+   			fname = contactForm.fname.value;
+	   	};
+	   	if (contactForm.lname.value) {
+   			lname = contactForm.lname.value;
+	   	};
+
+	   	for (var i=0; i<phoneCount; i++) {
+	   		var numfield = "phone_" + (i+1);
+	   		var typefield = "ptype_" + (i+1);
+	   		var phone = Object.create(Phone);
+   			phone.number = contactForm[numfield].value;
+   			phone.type = contactForm[typefield].value;
+   			phoneList.push(phone);
+	   	};
+
+		for (var i=0; i<addressCount; i++) {
+	   		var streetfield = "street_" + (i+1);
+	   		var cityfield = "city_" + (i+1);
+	   		var statefield = "state_" + (i+1);
+	   		var addr = Object.create(Address);
+   			addr.street = contactForm[streetfield].value;
+   			addr.city = contactForm[cityfield].value;
+   		   	addr.state = contactForm[statefield].value;
+			addressList.push(addr);
+	   	};
+
 
    		var contact = Object.create(Contact);
+   		//contact.addContact (fname, lname, phoneList, addressList);
 
-   		var inputs=$(this)[0];
-   		var params ={};
-   		var key="";
-   		var addr = Object.create(Address);
+   		contact.fname = fname;
+   		contact.lname = lname;
+   		contact.phonelist = phoneList;
+   		contact.addresslist = addressList;
+		contacts.push(contact);
 
-   		params['addresslist'] = [];
-   		params['phonelist'] = [];
-
-   		for (var i=0; i<inputs.length; i++) {
-   			key=inputs[i].name;
-   			if (key != "") {
-	   			console.log (key);
-				if (key.startsWith("street") ){
-	   				addr['street'] = inputs[i].value;
-	   			}
-	   			else if (key.startsWith("city")) {
-	   				addr['city'] = inputs[i].value;
-   				}
-   				else if (key.startsWith("state")) {
-   					addr['state'] = inputs[i].value;
-   					// this completes the info for this address, add to param list 
-   					params['addresslist'].push(addr);
-   				}
-   				else if (key.startsWith("phone")) {
-   					params['phonelist'].push(inputs[i].value);
-   					}
-   				else
- 		   			params[key] = inputs[i].value;
-	   		};
-   		};
-   		
-   		console.log (params)
-   		contact.addContact (params);
-   		
-
-   		/* trying a different tactic...
-   		var addr=Object.create(Address);
-   		var phone=Object.create(Phone);
-
-  		for (var i=0; i<inputs.length; i++) {
-   			key=inputs[i].name;
-   			if (key != "") {
-	   			console.log (key);
-				if (key.startsWith("street") ){
-	   				addr.street = inputs[i].value;
-	   			}
-	   			else if (key.startsWith("city")) {
-	   				addr.city = inputs[i].value;
-   				}
-   				else if (key.startsWith("state")) {
-   					addr.state = inputs[i].value;
-   					// this completes the info for this address, add to param list 
-   					(contact.addresslist).push(addr);
-   				}
-   				else if (key.startsWith("phone")) {
-   					phone.number = inputs[i].value;
-   					(contact.phonelist).push(phone);
-   					}
-   				else
- 		   			contact[key] = inputs[i].value;
-	   		};
-   		};
-   		*/
-
-   		//contact.logThis();
-   		contacts.push(contact);
-   		showContactBrief(contact);
+   		for (var i=0; i<contacts.length; i++) {
+   			showContactBrief(contacts[i]);
+   		}
 
    		showContactDetail(contact);
    		
-   		console.log (contact);
-
-
-
    	});
 });

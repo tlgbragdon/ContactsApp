@@ -27,7 +27,7 @@
 		<div class="row">
 		  	<div class="col-sm-8">
 				<h2>Add a contact:</h2>
-				<form class="addContactForm">
+				<form class="addContactForm" name="contactForm">
 				  	First name<br>
 				  	<input type="text" name="fname"><br>
 				  	Last name<br>
@@ -35,15 +35,20 @@
 				  	<fieldset id="phonelist">
 				  	    <legend>Phone Numbers</legend>
 				  		Phone Number 
-				  		<button onclick="addPhoneNum('#phonelist')">Add Phone Number</button> <br>
+				  		<button onclick="addPhoneField('#phonelist')">Add Phone Number</button> <br>
+				  		<select name="ptype_1"> 
+				  			<option value="mobile">Mobile</option>
+				  			<option value="work">Work</option>
+						    <option value="home">Home</option>
+						    <option value="other">Other</option>
+						</select>
+				  		: 
 					  	<input type="tel" name="phone_1" required><br>
-						
 
-						
 					</fieldset>
 
-					<fieldset id="addresslist">
-				  	   <legend>Addresses</legend>
+					<fieldset id="addressSet">
+				  	    <legend>Addresses</legend> 
 
 					  	Street<br>
 					  	<input type="text" name="street_1"><br>
@@ -53,7 +58,7 @@
 					  	<input type="text" name="state_1"><br>
 					  	
 					 </fieldset>
-					 <button onclick="addAddress('#addresslist')">Add Address</button> <br> 
+					 <button onclick="addAddressField('#addresslist')">Add Address</button> <br> 
 
 				  	 <input type="submit" value="Add Contact" class="addContact"> 
 				</form>
@@ -79,6 +84,8 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 	<!-- app-specifc -->
-	<script type="text/javascript" src="js/app.js"></script>
+	<script type="text/javascript" src="js/app.js"></script> 
+ 	<!-- <script type="text/javascript" src="js/temp-app.js"></script> -->
+
 </body>
 </html>
