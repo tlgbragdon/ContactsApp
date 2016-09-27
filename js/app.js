@@ -13,12 +13,13 @@ var Address = {
 
 
 var Contact = {
+	"contactId" : 0,
 	"fname" : "",
 	"lname": "",
 	"phonelist": [],
 	"addresslist": [],
 
-	"addContact" : function (fname, lname, phoneList, addrList) {
+	"addContact" : function (fname, lname, phoneList, addrList, id) {
 		// cont = Object.create(Contact);
 		this.fname = fname;
 		this.lname = lname;
@@ -28,6 +29,7 @@ var Contact = {
 		for (var a=0; a<addrList.length; a++) {
 			this.addresslist.push(addrList[a]);
 		}
+		this.contactID = id;
 	}
 };
 
@@ -43,7 +45,6 @@ function addPhoneField(phoneSetID) {
     $(phoneSetID).append(
 
 		"<select name=ptype_" + phoneCount + ">" + 
-			"<select>" + 
 	  			"<option value='mobile'>Mobile</option>" + 
 	  			"<option value='work'>Work</option>" + 
 			    "<option value='home'>Home</option>" + 
@@ -54,10 +55,9 @@ function addPhoneField(phoneSetID) {
 
 function addAddressField(addressSetID) {
 	event.preventDefault();
-	console.log("addAddress called");
 	addressCount++;
 	// add street, city, and state fields
-	var addressFields = "<hr class='address'>" +
+	var addressFields = "<hr>" +
 					"Street<br>" + 
 					"<input type='text' name='street_" + addressCount + "'><br>" + 
 					"City<br>" + 
@@ -68,20 +68,21 @@ function addAddressField(addressSetID) {
 
 };
 
-/* show "brief" view of contact */
-function showContactBrief(contact) {
+/* show "brief" view of contacts */
+function showContactsBrief() {
 	// display clickable names only
-	
+	for (var i=0; i<contacts.length; i++) {
 		var html = "";
-		html += "<li id='contact" + "'>" + contact.fname + " " + contact.lname + "</li>";
+		html += "<li id='contact_" + i + "' onclick='showContactDetail(" + i + ")'>" + contacts[i].fname + " " + contacts[i].lname + "</li>";
 		$('.brieflist').append(html);
 	};
+};
 	
-/* show "full" view of contact */
-function showContactDetail(contact) {
-	console.log("showContactDetail called");
-	// display clickable names only
-	
+/* show "full" view of contact with the given contacts index*/
+function showContactDetail(idx) {
+	event.preventDefault();
+
+	var contact = contacts[idx];	
 	var html = "<h2>" + contact.fname + " " + contact.lname + "</h2>" + 
 		"First name: " + contact.fname + "<br>Last name: " + contact.lname + "<br>";
 	$('.contactDetail').append(html);
@@ -152,11 +153,8 @@ $(document).ready(function(){
    		contact.addresslist = addressList;
 		contacts.push(contact);
 
-   		for (var i=0; i<contacts.length; i++) {
-   			showContactBrief(contacts[i]);
-   		}
-
-   		showContactDetail(contact);
+  		showContactsBrief();
+   		
    		
    	});
 });
