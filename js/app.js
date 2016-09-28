@@ -70,10 +70,34 @@ function addAddressField(addressSetID) {
 
 /* show "brief" view of contacts */
 function showContactsBrief() {
-	// display clickable names only
-	for (var i=0; i<contacts.length; i++) {
+	// display clickable names only in alphabetical order by last name
+	// if there are contacts to show, remove the 'hidden' class from the header
+	if (contacts.length > 0) {
+		$('.contactHeader').removeClass("hidden");
+	};
+
+	// remove any existing data that is displayed
+	$('ul.brieflist').empty();
+
+	//sort array alphabetically
+	contactsSorted = contacts.sort( function (a,b){
+		var nameA = a.lname.toUpperCase(); // ignore upper and lowercase
+  		var nameB = b.lname.toUpperCase(); // ignore upper and lowercase
+		if (nameA < nameB) {
+		  return -1;
+		}
+		if (nameA > nameB) {
+		  return 1;
+		}
+		// names must be equal
+		return 0;
+	});
+
+	for (var i=0; i<contactsSorted.length; i++) {
 		var html = "";
-		html += "<li id='contact_" + i + "' onclick='showContactDetail(" + i + ")'>" + contacts[i].fname + " " + contacts[i].lname + "</li>";
+		html += "<li id='contact_" + contactsSorted[i].ContactId + 
+		    "' onclick='showContactDetail(" + contactsSorted[i].contactId + ")'>" + 
+			contactsSorted[i].fname + " " + contactsSorted[i].lname + "</li>";
 		$('.brieflist').append(html);
 	};
 };
@@ -108,7 +132,7 @@ function showContactDetail(idx) {
 
 $(document).ready(function(){
 
-	$('.addContactForm').submit( function(event){
+	$('#addContactsForm').submit( function(event){
    		event.preventDefault();
    		
 		var fname = "";
@@ -116,19 +140,19 @@ $(document).ready(function(){
    		var addressList = [];
    		var phoneList = [];
 
-  		if (contactForm.fname.value) {
-   			fname = contactForm.fname.value;
+  		if (addContactsForm.fname.value) {
+   			fname = addContactsForm.fname.value;
 	   	};
-	   	if (contactForm.lname.value) {
-   			lname = contactForm.lname.value;
+	   	if (addContactsForm.lname.value) {
+   			lname = addContactsForm.lname.value;
 	   	};
 
 	   	for (var i=0; i<phoneCount; i++) {
 	   		var numfield = "phone_" + (i+1);
 	   		var typefield = "ptype_" + (i+1);
 	   		var phone = Object.create(Phone);
-   			phone.number = contactForm[numfield].value;
-   			phone.type = contactForm[typefield].value;
+   			phone.number = addContactsForm[numfield].value;
+   			phone.type = addContactsForm[typefield].value;
    			phoneList.push(phone);
 	   	};
 
@@ -137,9 +161,9 @@ $(document).ready(function(){
 	   		var cityfield = "city_" + (i+1);
 	   		var statefield = "state_" + (i+1);
 	   		var addr = Object.create(Address);
-   			addr.street = contactForm[streetfield].value;
-   			addr.city = contactForm[cityfield].value;
-   		   	addr.state = contactForm[statefield].value;
+   			addr.street = addContactsForm[streetfield].value;
+   			addr.city = addContactsForm[cityfield].value;
+   		   	addr.state = addContactsForm[statefield].value;
 			addressList.push(addr);
 	   	};
 
