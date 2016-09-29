@@ -66,6 +66,7 @@ function removePhoneField(event, idx) {
 
 	var phone = "#phone_" + idx
 	$(phone).remove();
+	phoneCount--;
 };
 
 function addAddressField(event) {
@@ -95,6 +96,7 @@ function removeAddressField(event, idx) {
 
 	var address = "#address_" + idx
 	$(address).remove();
+	addressCount--;
 };
 
 function resetContactFields() {
