@@ -34,29 +34,32 @@
 				  	<input type="text" name="lname" size="30"required><br>
 				  	<fieldset id="phonelist">
 				  	    <legend>Phone Numbers</legend>
+				  	    <div id="phone_1">
 				  		<select name="ptype_1"> 
 				  			<option value="mobile">Mobile</option>
 				  			<option value="work">Work</option>
 						    <option value="home">Home</option>
 						    <option value="other">Other</option>
 						</select>
-				  		: 
+						 : 
 					  	<input type="tel" name="phone_1" required>
 					  	<br>
+					  	</div>
 						
 					</fieldset>
-					<button onclick="addPhoneField('#phonelist')">Add Phone</button>
+					<button id="addPhone">Add Phone</button>
 					<fieldset id="addressSet">
 				  	    <legend>Addresses</legend> 
+				  	    <div id="address_1">
 					  	Street<br>
 					  	<input type="text" name="street_1" size="40"><br>
 					  	City<br>
 					  	<input type="text" name="city_1" size="40"><br>
 					  	State<br>
 					  	<input type="text" name="state_1"  size="40"><br>
-					  	
+					  	</div>
 					 </fieldset>
-					 <button onclick="addAddressField('#addressSet')">Add Address</button> 
+					 <button id="addAddress">Add Address</button> 
 					 <br> 
 
 				  	 <input type="submit" value="Add Contact" class="addContact"> 
