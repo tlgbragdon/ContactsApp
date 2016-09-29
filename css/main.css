@@ -1,12 +1,60 @@
-* {
+/* {
 	outline: 1px solid red;
 }
+*/
+
 body {
 	font-family: Tahoma, Geneva, sans-serif;
+}
+
+form {
+	padding: 5px;
 }
 
 input {
 	border: 1px solid gray;
 	padding: 5px;
 	margin-bottom: 10px;
+	background-color: white;
+}
+
+/* override the default yellow background for autofilled fields */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+	background-color: white !important;
+}
+
+button {
+	background-color: #b3ecff;
+	margin: 5px 0;
+}
+
+input.addContact {
+	margin : 10px 0;
+	background-color: #0086b3;
+	color: #f2f2f2;
+	font-size: larger;
+}
+
+legend {
+	border: 0;
+}
+fieldset {
+	padding : 10px; 
+	border: 1px solid gray;
+	border-radius : 10px;
+}
+
+.contactDetail>h2 {
+	color: #0086b3;
+}
+
+.hidden {
+	display: none;
+}
+
+.brieflist li:hover {
+	color:#0086b3;
 }
