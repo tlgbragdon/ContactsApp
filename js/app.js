@@ -46,14 +46,26 @@ function addPhoneField(event) {
 
 	phoneCount ++;
     $('#phonelist').append(
-		"<div id='phone_" + phoneCount + "'>" +
+		"<div id='phone_" + phoneCount + "'>" + 
 			"<select name=ptype_" + phoneCount + ">" + 
 	  			"<option value='mobile'>Mobile</option>" + 
 	  			"<option value='work'>Work</option>" + 
 			    "<option value='home'>Home</option>" + 
 			    "<option value='other'>Other</option>" + 
-			"</select> " +  
-		  	"<input type='tel' name='phone_" + phoneCount + "'><br> </div>");
+			"</select> : " +  
+		  	"<input type='tel' name='phone_" + phoneCount + "'>" + 
+		  	"<button id='removePhone_" + phoneCount + 
+		      "' onclick='removePhoneField(event," + phoneCount + ")'>Remove</button>" +
+		    "<br> </div>");
+};
+
+/* remove phone and address input fields on the page*/
+function removePhoneField(event, idx) {
+	event.preventDefault();
+	event.stopPropagation();
+
+	var phone = "#phone_" + idx
+	$(phone).remove();
 };
 
 function addAddressField(event) {
@@ -68,9 +80,21 @@ function addAddressField(event) {
 					"City<br>" + 
 					"<input type='text' name='city_" + addressCount + "' size='40'><br>" +
 					"State<br>" + 
-					"<input type='text' name='state_" + addressCount + "' size='40'><br></div>";
+					"<input type='text' name='state_" + addressCount + "' size='40'> <br>" + 
+					"<button id='removeAddress_" + addressCount + 
+		      		    "' onclick='removeAddressField(event," + addressCount + ")'>Remove</button>" +
+					"</div>";
 	$('#addressSet').append(addressFields);
 
+};
+
+/* remove address input fields on the page*/
+function removeAddressField(event, idx) {
+	event.preventDefault();
+	event.stopPropagation();
+
+	var address = "#address_" + idx
+	$(address).remove();
 };
 
 function resetContactFields() {
@@ -86,6 +110,10 @@ function resetContactFields() {
    		var address = "#address_" + (i+1);
    		$(address).remove(); 
    	};
+
+   	// reset the phone and address counts
+   	phoneCount = 1;
+   	addressCount = 1;
 
    	// reset the remaining form fields
    document.getElementById("addContactsForm").reset();
